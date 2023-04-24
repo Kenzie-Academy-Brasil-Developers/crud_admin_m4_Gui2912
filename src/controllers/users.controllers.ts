@@ -52,6 +52,8 @@ const softDeleteUser = async (
     req: Request,
     res: Response
 ): Promise<Response> => {
+    const userId:number = +req.params.id
+    await softDeleteUserService(userId)
     return res.status(204).json();
 };
 
