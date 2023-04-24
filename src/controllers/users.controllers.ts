@@ -42,7 +42,6 @@ const retrieveLoggedUser = async (
 const updateUser = async (req: Request, res: Response): Promise<Response> => {
     const dataRequest: TUserUpdate = req.body;
     const userId:number = +req.params.id
-    const userLoggedEmail:string = res.locals.email
     
     const userUpdated = await updateUserService(dataRequest, userId)
 
@@ -60,7 +59,9 @@ const reactivateUserProfile = async (
     req: Request,
     res: Response
 ): Promise<Response> => {
-    return res.status(200).json();
+    const userId:number = +req.params.id
+    const userReactivated = await reactiveUserService(userId)
+    return res.status(200).json(userReactivated);
 };
 
 export {

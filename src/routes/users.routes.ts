@@ -8,12 +8,14 @@ import {
     reactivateUserProfile,
 } from "../controllers";
 import {
+    ensureBodyIsValidMiddleware,
     ensureEmailIsUniqueMiddleware,
     ensureUserExistsMiddleware,
     ensureUserIsAdmMiddleware,
     retrictPermissionMiddleware,
     validateTokenMiddlware,
 } from "../middlewares";
+import { updateUserRequestSchema, updateUserSchema } from '../schemas';
 
 const userRoutes: Router = Router();
 
@@ -24,15 +26,31 @@ userRoutes.get(
     ensureUserIsAdmMiddleware,
     retrieveUsers
 );
-userRoutes.get("/profile", validateTokenMiddlware, retrieveLoggedUser);
+userRoutes.get(
+    "/profile",
+    validateTokenMiddlware,
+    retrictPermissionMiddleware,
+    retrieveLoggedUser
+);
 userRoutes.patch(
     "/:id",
     validateTokenMiddlware,
     ensureUserExistsMiddleware,
+    ensureBodyIsValidMiddleware(updateUserSchema),
     retrictPermissionMiddleware,
     updateUser
 );
-userRoutes.delete("", validateTokenMiddlware, softDeleteUser);
-userRoutes.put("", validateTokenMiddlware, reactivateUserProfile);
+userRoutes.delete(
+    "/:id",
+    validateTokenMiddlware,
+    retrictPermissionMiddleware,
+    softDeleteUser
+);
+userRoutes.put(
+    "/:id/recover",
+    validateTokenMiddlware,
+    ensureUserIsAdmMiddleware,
+    reactivateUserProfile
+);
 
 export default userRoutes;

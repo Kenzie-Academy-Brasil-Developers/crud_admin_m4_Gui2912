@@ -10,7 +10,6 @@ const retrictPermissionMiddleware = async (
     next: NextFunction
 ): Promise<void> => {
     const userEmail = res.locals.email;
-    const userId = req.params.id
 
     const queryStringSelect: string = `
     SELECT
@@ -29,6 +28,9 @@ const retrictPermissionMiddleware = async (
     const querySelectResult: QueryResult = await client.query(
         queryConfigSelect
     );
+
+    const userId = req.params.id || querySelectResult.rows[0].id
+
 
     if (
         !querySelectResult.rows[0].admin &&

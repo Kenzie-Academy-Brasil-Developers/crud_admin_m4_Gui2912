@@ -24,7 +24,11 @@ const ensureUserIsAdmMiddleware = async (
         values: [userEmail],
     };
 
-    const { rows }: QueryResult = await client.query(queryConfig);
+    const { rows, rowCount }: QueryResult = await client.query(queryConfig);
+
+    if(rowCount === 0){
+        throw new AppError("Insufficient Permission", 403)
+    }
 
     if (!rows[0].admin) {
         throw new AppError("Insufficient Permission", 403);
