@@ -1,9 +1,16 @@
 import {
     TCreateUSer,
-    TUserResponse
+    TUserResponse,
+    TAllUsers,
+    TUserUpdate
 } from './users.interfaces'
+
+import {TLoginInterface} from './login.interfaces'
 
 export {
     TCreateUSer,
-    TUserResponse
+    TUserResponse,
+    TLoginInterface,
+    TAllUsers,
+    TUserUpdate
 }

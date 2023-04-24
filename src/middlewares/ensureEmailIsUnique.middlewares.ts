@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import { TCreateUSer } from '../interfaces';
 import { QueryConfig, QueryResult } from 'pg';
 import { client } from '../database';
 import { AppError } from '../error';
@@ -32,6 +31,6 @@ const ensureEmailIsUniqueMiddleware = async(req:Request, res:Response, next:Next
     return next()
 }
 
-export {
-    ensureEmailIsUniqueMiddleware
-}
+
+
+export default ensureEmailIsUniqueMiddleware

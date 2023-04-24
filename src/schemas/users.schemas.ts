@@ -10,12 +10,26 @@ const createUserSchema = z.object({
         .transform((pass) => {
             return hashSync(pass, 10);
         }),
-    admin: z.boolean().optional()
+    admin: z.boolean().optional(),
 });
 
-const userSchema = createUserSchema.extend({
-    id: z.number(),
-    active: z.boolean()
-}).omit({password: true})
+const userSchema = createUserSchema
+    .extend({
+        id: z.number(),
+        active: z.boolean(),
+    })
+    .omit({ password: true });
 
-export {createUserSchema, userSchema}
+const allUsersListedSchema = z.array(userSchema);
+
+const updateUserRequestSchema = createUserSchema.omit({ admin: true });
+
+const updateUserSchema = updateUserRequestSchema.partial();
+
+export {
+    createUserSchema,
+    userSchema,
+    allUsersListedSchema,
+    updateUserRequestSchema,
+    updateUserSchema,
+};

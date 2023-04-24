@@ -1,16 +1,12 @@
 import { Router } from "express";
 import {
-    createUserController,
-    retrieveUsers,
-    retrieveLoggedUser,
-    updateUser,
-    softDeleteUser,
-    reactivateUserProfile,
-    makeLoginController,
+    makeLoginController
 } from "../controllers";
+import { ensureBodyIsValidMiddleware } from '../middlewares';
+import { createLoginSchema } from '../schemas';
 
 const loginRoutes: Router = Router();
 
-loginRoutes.post("", makeLoginController);
+loginRoutes.post("",ensureBodyIsValidMiddleware(createLoginSchema), makeLoginController);
 
 export default loginRoutes;
